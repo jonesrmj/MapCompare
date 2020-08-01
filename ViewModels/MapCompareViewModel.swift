@@ -15,11 +15,12 @@ import MapKit
 class MapCompareViewModel: NSObject, ObservableObject, Identifiable {
     private let locationManager = CLLocationManager()
     private var currentRegion: MKCoordinateRegion?
-    private var currentLocation: MKCoordinateRegion?
-    private var destinationLocation = CLLocation(latitude: 39.755965, longitude: -75.697045)
+    private var currentLocation: CLLocationCoordinate2D?
+    private var destinationLocation = CLLocationCoordinate2D(latitude: 39.755965, longitude: -75.697045)
     
     @Published var origin: String = ""
     @Published var destination: String = "229 Charleston Drive"
+    @Published var estimatedTime: String = ""
     
     override init() {
         super.init()
@@ -56,8 +57,28 @@ class MapCompareViewModel: NSObject, ObservableObject, Identifiable {
         }
     }
     
-    func setOrigin() {
-        self.origin = "Hi Ryan"
+    func calculateEstimates() {
+        guard currentLocation != nil else { return }
+        let request = MKDirections.Request()
+        
+        request.source = MKMapItem(placemark: MKPlacemark(coordinate: currentLocation!))
+        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destinationLocation))
+        
+        let directions = MKDirections(request: request)
+        
+        directions.calculate { response, error in
+            guard let mapRoute = response?.routes.first else {
+                self.estimatedTime = "Unable to Estimate"
+                return
+            }
+            
+            let (h,m,s) = self.secondsToHoursMinutesSeconds(seconds: mapRoute.expectedTravelTime)
+            self.estimatedTime = "Apple Estimate: \(h) hrs \(m) min \(s) sec"
+        }
+    }
+    
+    func secondsToHoursMinutesSeconds(seconds: Double) -> (Int, Int, Int) {
+        return (Int(seconds) / 3600, (Int(seconds) % 3600) / 60, (Int(seconds) % 3600) % 60)
     }
 }
 
@@ -71,22 +92,20 @@ extension MapCompareViewModel: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let currentLocation = locations.first else {
+        guard let loc = locations.first else {
             return
         }
-        
+                
         //1 (commonDelta refers to zoom level you want. Increase the value for more coverage)
         let commonDelta: CLLocationDegrees = 25 / 111
         let span = MKCoordinateSpan(
             latitudeDelta: commonDelta,
             longitudeDelta: commonDelta)
         //2 (The  region you created using the coordinates obtained via CoreLocation's delegate)
-        let region = MKCoordinateRegion(center: currentLocation.coordinate, span: span)
-        currentRegion = region
-        
+        let region = MKCoordinateRegion(center: loc.coordinate, span: span)
         
         // 2 (Returns an array of placemarks in its completion handler)
-        CLGeocoder().reverseGeocodeLocation(currentLocation) { places, _ in
+        CLGeocoder().reverseGeocodeLocation(loc) { places, _ in
             // 3 (Make sure text field is empty).
             guard
                 let firstPlace = places?.first,
@@ -98,6 +117,8 @@ extension MapCompareViewModel: CLLocationManagerDelegate {
             // 4 (Store the current location and update the field)
             //self.currentPlace = firstPlace
             self.origin = firstPlace.name ?? "Current Location"
+            self.currentLocation = loc.coordinate
+            self.currentRegion = region
         }
     }
     

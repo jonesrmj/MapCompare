@@ -20,10 +20,15 @@ struct ContentView: View {
             TextField("Origin", text: $viewModel.origin)
             TextField("Destination", text: $viewModel.destination)
             Button(action: {
-                self.viewModel.setOrigin()
+                self.viewModel.calculateEstimates()
             }) {
                 Text("Calculate")
             }
+            
+            Divider()
+            
+            Text(viewModel.estimatedTime)
+            
             Spacer()
         }
         .padding(.horizontal, 25)
