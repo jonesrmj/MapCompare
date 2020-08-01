@@ -9,13 +9,30 @@
 import SwiftUI
 
 struct ContentView: View {
+    @ObservedObject var viewModel: MapCompareViewModel
+    
+    init(viewModel: MapCompareViewModel) {
+        self.viewModel = viewModel
+    }
+    
     var body: some View {
-        Text("Hello, World!")
+        VStack (spacing: 25) {
+            TextField("Origin", text: $viewModel.origin)
+            TextField("Destination", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+            Button(action: {
+                self.viewModel.setOrigin()
+            }) {
+                Text("Calculate")
+            }
+            Spacer()
+        }
+        .padding(.horizontal, 25)
+        .padding(.top, 25)
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(viewModel: MapCompareViewModel())
     }
 }
