@@ -16,9 +16,10 @@ class MapCompareViewModel: NSObject, ObservableObject, Identifiable {
     private let locationManager = CLLocationManager()
     private var currentRegion: MKCoordinateRegion?
     private var currentLocation: MKCoordinateRegion?
+    private var destinationLocation = CLLocation(latitude: 39.755965, longitude: -75.697045)
     
     @Published var origin: String = ""
-    @Published var destination: String = ""
+    @Published var destination: String = "229 Charleston Drive"
     
     override init() {
         super.init()

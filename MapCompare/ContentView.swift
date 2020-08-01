@@ -18,7 +18,7 @@ struct ContentView: View {
     var body: some View {
         VStack (spacing: 25) {
             TextField("Origin", text: $viewModel.origin)
-            TextField("Destination", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+            TextField("Destination", text: $viewModel.destination)
             Button(action: {
                 self.viewModel.setOrigin()
             }) {
