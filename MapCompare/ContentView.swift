@@ -27,7 +27,7 @@ struct ContentView: View {
             
             Divider()
             
-            Text(viewModel.estimatedTime)
+            Text(viewModel.appleEstimatedTime)
             
             Spacer()
         }

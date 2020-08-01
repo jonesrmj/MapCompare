@@ -12,6 +12,8 @@ import Combine
 import CoreLocation
 import MapKit
 
+//Google Map API Key - AIzaSyDTi_XOeVlQM9sRq8Vntlw-8c8vsbxqrbI
+
 class MapCompareViewModel: NSObject, ObservableObject, Identifiable {
     private let locationManager = CLLocationManager()
     private var currentRegion: MKCoordinateRegion?
@@ -20,7 +22,7 @@ class MapCompareViewModel: NSObject, ObservableObject, Identifiable {
     
     @Published var origin: String = ""
     @Published var destination: String = "229 Charleston Drive"
-    @Published var estimatedTime: String = ""
+    @Published var appleEstimatedTime: String = ""
     
     override init() {
         super.init()
@@ -58,6 +60,11 @@ class MapCompareViewModel: NSObject, ObservableObject, Identifiable {
     }
     
     func calculateEstimates() {
+        calculateAppleEstimate()
+        calculateGoogleEstimate()
+    }
+    
+    func calculateAppleEstimate() {
         guard currentLocation != nil else { return }
         let request = MKDirections.Request()
         
@@ -68,13 +75,32 @@ class MapCompareViewModel: NSObject, ObservableObject, Identifiable {
         
         directions.calculate { response, error in
             guard let mapRoute = response?.routes.first else {
-                self.estimatedTime = "Unable to Estimate"
+                self.appleEstimatedTime = "Unable to Estimate"
                 return
             }
             
             let (h,m,s) = self.secondsToHoursMinutesSeconds(seconds: mapRoute.expectedTravelTime)
-            self.estimatedTime = "Apple Estimate: \(h) hrs \(m) min \(s) sec"
+            self.appleEstimatedTime = "Apple Estimate: \(h) hrs \(m) min \(s) sec"
         }
+    }
+    
+    func calculateGoogleEstimate() {
+        /*
+        let urlString = "https://maps.googleapis.com/maps/api/directions/json?origin=\(currentLocation!.latitude),\(currentLocation!.longitude)&destination=\(destinationLocation.latitude),\(destinationLocation.longitude)&key=AIzaSyDTi_XOeVlQM9sRq8Vntlw-8c8vsbxqrbI"
+        if let url = URL(string: urlString) {
+            URLSession.shared.dataTask(with: url) { data, res, err in
+                if let data = data {
+                    print("hey")
+                    
+                    let decoder = JSONDecoder()
+                    if let json = try? decoder.decode(response.self, from: data) {
+                        print(json)
+                    }
+                }
+            }.resume()
+            print("finished")
+        }
+        */
     }
     
     func secondsToHoursMinutesSeconds(seconds: Double) -> (Int, Int, Int) {
