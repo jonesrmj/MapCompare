@@ -23,6 +23,7 @@ class MapCompareViewModel: NSObject, ObservableObject, Identifiable {
     @Published var origin: String = ""
     @Published var destination: String = "229 Charleston Drive"
     @Published var appleEstimatedTime: String = ""
+    @Published var googleEstimatedTime: String = ""
     
     override init() {
         super.init()
@@ -85,7 +86,6 @@ class MapCompareViewModel: NSObject, ObservableObject, Identifiable {
     }
     
     func calculateGoogleEstimate() {
-        /*
         let urlString = "https://maps.googleapis.com/maps/api/directions/json?origin=\(currentLocation!.latitude),\(currentLocation!.longitude)&destination=\(destinationLocation.latitude),\(destinationLocation.longitude)&key=AIzaSyDTi_XOeVlQM9sRq8Vntlw-8c8vsbxqrbI"
         if let url = URL(string: urlString) {
             URLSession.shared.dataTask(with: url) { data, res, err in
@@ -93,14 +93,16 @@ class MapCompareViewModel: NSObject, ObservableObject, Identifiable {
                     print("hey")
                     
                     let decoder = JSONDecoder()
-                    if let json = try? decoder.decode(response.self, from: data) {
+                    if let json = try? decoder.decode(GoogleMapsResponse.self, from: data) {
                         print(json)
+                        
+                        let (h,m,s) = self.secondsToHoursMinutesSeconds(seconds: Double(json.getDuration()))
+                        self.googleEstimatedTime = "Google Estimate: \(h) hrs \(m) min \(s) sec"
                     }
                 }
             }.resume()
             print("finished")
         }
-        */
     }
     
     func secondsToHoursMinutesSeconds(seconds: Double) -> (Int, Int, Int) {

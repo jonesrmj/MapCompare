@@ -28,6 +28,7 @@ struct ContentView: View {
             Divider()
             
             Text(viewModel.appleEstimatedTime)
+            Text(viewModel.googleEstimatedTime)
             
             Spacer()
         }
