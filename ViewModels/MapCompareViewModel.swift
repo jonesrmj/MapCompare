@@ -12,7 +12,8 @@ import Combine
 import CoreLocation
 import MapKit
 
-//Google Map API Key - AIzaSyDTi_XOeVlQM9sRq8Vntlw-8c8vsbxqrbI
+//Google Maps API Key - AIzaSyDTi_XOeVlQM9sRq8Vntlw-8c8vsbxqrbI
+//Here Maps API Key - 7VXcg587AgO_zSXis-oMbuBMUjgYWcNnq9TCF0vvtAs
 
 class MapCompareViewModel: NSObject, ObservableObject, Identifiable {
     private let locationManager = CLLocationManager()
@@ -24,6 +25,7 @@ class MapCompareViewModel: NSObject, ObservableObject, Identifiable {
     @Published var destination: String = "229 Charleston Drive"
     @Published var appleEstimatedTime: String = ""
     @Published var googleEstimatedTime: String = ""
+    @Published var hereEstimatedTime: String = ""
     
     override init() {
         super.init()
@@ -63,6 +65,7 @@ class MapCompareViewModel: NSObject, ObservableObject, Identifiable {
     func calculateEstimates() {
         calculateAppleEstimate()
         calculateGoogleEstimate()
+        calculateHereEstimate()
     }
     
     func calculateAppleEstimate() {
@@ -98,6 +101,26 @@ class MapCompareViewModel: NSObject, ObservableObject, Identifiable {
                         
                         let (h,m,s) = self.secondsToHoursMinutesSeconds(seconds: Double(json.getDuration()))
                         self.googleEstimatedTime = "Google Estimate: \(h) hrs \(m) min \(s) sec"
+                    }
+                }
+            }.resume()
+            print("finished")
+        }
+    }
+    
+    func calculateHereEstimate() {
+        let urlString = "https://router.hereapi.com/v8/routes?transportMode=car&origin=\(currentLocation!.latitude),\(currentLocation!.longitude)&destination=\(destinationLocation.latitude),\(destinationLocation.longitude)&apiKey=7VXcg587AgO_zSXis-oMbuBMUjgYWcNnq9TCF0vvtAs&return=summary"
+        if let url = URL(string: urlString) {
+            URLSession.shared.dataTask(with: url) { data, res, err in
+                if let data = data {
+                    print("hey")
+                    
+                    let decoder = JSONDecoder()
+                    if let json = try? decoder.decode(HereMapsResponse.self, from: data) {
+                        print(json)
+                        
+                        let (h,m,s) = self.secondsToHoursMinutesSeconds(seconds: Double(json.getDuration()))
+                        self.hereEstimatedTime = "Here Estimate: \(h) hrs \(m) min \(s) sec"
                     }
                 }
             }.resume()

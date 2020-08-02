@@ -29,6 +29,9 @@ struct ContentView: View {
             
             Text(viewModel.appleEstimatedTime)
             Text(viewModel.googleEstimatedTime)
+            Text(viewModel.hereEstimatedTime)
+            
+            Divider()
             
             Spacer()
         }
