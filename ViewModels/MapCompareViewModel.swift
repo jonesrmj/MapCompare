@@ -29,6 +29,9 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
   @Published var googleEstimatedTime: String = "Google Estimate:"
   @Published var hereEstimatedTime: String = "Here Estimate:"
   @Published var suggestedAddresses: [MKLocalSearchCompletion] = []
+  @Published var appleLoading: Bool = false
+  @Published var googleLoading: Bool = false
+  @Published var hereLoading: Bool = false
   
   override init() {
     completer = MKLocalSearchCompleter()
@@ -93,6 +96,7 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
   }
   
   func calculateAppleEstimate() {
+    appleLoading = true
     guard currentLocation != nil else { return }
     let request = MKDirections.Request()
     
@@ -108,11 +112,13 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
       }
       
       let (h,m,s) = self.secondsToHoursMinutesSeconds(seconds: mapRoute.expectedTravelTime)
+      self.appleLoading = false
       self.appleEstimatedTime = "Apple Estimate: \(h) hrs \(m) min \(s) sec"
     }
   }
   
   func calculateGoogleEstimate() {
+    googleLoading = true
     let urlString = "https://maps.googleapis.com/maps/api/directions/json?origin=\(currentLocation!.latitude),\(currentLocation!.longitude)&destination=\(destinationLocation!.latitude),\(destinationLocation!.longitude)&key=AIzaSyDTi_XOeVlQM9sRq8Vntlw-8c8vsbxqrbI"
     if let url = URL(string: urlString) {
       URLSession.shared.dataTask(with: url) { data, res, err in
@@ -124,6 +130,7 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
             print("processes json (google)")
             
             let (h,m,s) = self.secondsToHoursMinutesSeconds(seconds: Double(json.getDuration()))
+            self.googleLoading = false
             self.googleEstimatedTime = "Google Estimate: \(h) hrs \(m) min \(s) sec"
           }
         }
@@ -132,6 +139,7 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
   }
   
   func calculateHereEstimate() {
+    hereLoading = true
     let urlString = "https://router.hereapi.com/v8/routes?transportMode=car&origin=\(currentLocation!.latitude),\(currentLocation!.longitude)&destination=\(destinationLocation!.latitude),\(destinationLocation!.longitude)&apiKey=J9mnOKeM9hvkDM84Z2XDLjXCi3b6SoRMRMtOM9YyWSU&return=summary"
     if let url = URL(string: urlString) {
       URLSession.shared.dataTask(with: url) { data, res, err in
@@ -143,6 +151,7 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
             print("processed json (here)")
             
             let (h,m,s) = self.secondsToHoursMinutesSeconds(seconds: Double(json.getDuration()))
+            self.hereLoading = false
             self.hereEstimatedTime = "Here Estimate: \(h) hrs \(m) min \(s) sec"
           }
         }

@@ -29,9 +29,18 @@ struct ContentView: View {
         
         Divider()
         
-        Text(viewModel.appleEstimatedTime)
-        Text(viewModel.googleEstimatedTime)
-        Text(viewModel.hereEstimatedTime)
+        HStack {
+          Text(viewModel.appleEstimatedTime)
+          ActivityIndicator(shouldAnimate: $viewModel.appleLoading)
+        }
+        HStack {
+          Text(viewModel.googleEstimatedTime)
+          ActivityIndicator(shouldAnimate: $viewModel.googleLoading)
+        }
+        HStack {
+          Text(viewModel.hereEstimatedTime)
+          ActivityIndicator(shouldAnimate: $viewModel.hereLoading)
+        }
         
         Divider()
         
