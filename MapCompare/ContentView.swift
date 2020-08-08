@@ -31,14 +31,17 @@ struct ContentView: View {
         
         HStack {
           Text(viewModel.appleEstimatedTime)
+          Spacer()
           ActivityIndicator(shouldAnimate: $viewModel.appleLoading)
         }
         HStack {
           Text(viewModel.googleEstimatedTime)
+          Spacer()
           ActivityIndicator(shouldAnimate: $viewModel.googleLoading)
         }
         HStack {
           Text(viewModel.hereEstimatedTime)
+          Spacer()
           ActivityIndicator(shouldAnimate: $viewModel.hereLoading)
         }
         

@@ -18,7 +18,6 @@
 		693C402024CDD63D00D812CB /* MapCompareTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693C401F24CDD63D00D812CB /* MapCompareTests.swift */; };
 		693C402B24CDD63D00D812CB /* MapCompareUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693C402A24CDD63D00D812CB /* MapCompareUITests.swift */; };
 		6949570324CE423C00DEFB5F /* MapCompareViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6949570224CE423C00DEFB5F /* MapCompareViewModel.swift */; };
-		696B615724DF1CC100E4BE79 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B615624DF1CC100E4BE79 /* Address.swift */; };
 		696B615A24DF41D900E4BE79 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B615924DF41D900E4BE79 /* ActivityIndicator.swift */; };
 /* End PBXBuildFile section */
 
@@ -57,7 +56,6 @@
 		693C402A24CDD63D00D812CB /* MapCompareUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCompareUITests.swift; sourceTree = "<group>"; };
 		693C402C24CDD63D00D812CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6949570224CE423C00DEFB5F /* MapCompareViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCompareViewModel.swift; sourceTree = "<group>"; };
-		696B615624DF1CC100E4BE79 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		696B615924DF41D900E4BE79 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -162,7 +160,6 @@
 			children = (
 				692B364824D70BA10092B5AC /* GoogleMapsDuration.swift */,
 				692B364A24D71FA70092B5AC /* HereMapsDuration.swift */,
-				696B615624DF1CC100E4BE79 /* Address.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -313,7 +310,6 @@
 				696B615A24DF41D900E4BE79 /* ActivityIndicator.swift in Sources */,
 				693C400B24CDD63B00D812CB /* SceneDelegate.swift in Sources */,
 				693C400D24CDD63B00D812CB /* ContentView.swift in Sources */,
-				696B615724DF1CC100E4BE79 /* Address.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
