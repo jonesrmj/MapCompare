@@ -22,6 +22,8 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
   private var destinationLocation: CLLocationCoordinate2D?
   private var completer: MKLocalSearchCompleter
   private var cancellable: AnyCancellable?
+  private var startTime: Date?
+  private var endTime: Date?
   
   @Published var origin: String = ""
   @Published var destination: String = ""
@@ -32,6 +34,7 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
   @Published var appleLoading: Bool = false
   @Published var googleLoading: Bool = false
   @Published var hereLoading: Bool = false
+  @Published var actualTravelTime: String = ""
   
   override init() {
     completer = MKLocalSearchCompleter()
@@ -164,6 +167,8 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
   }
   
   func openDirections() {
+    startTime = Date()
+    
     let source = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: currentLocation!.latitude, longitude: currentLocation!.longitude)))
     source.name = "\(origin)"
     
@@ -171,6 +176,15 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
     destination.name = "\(destination)"
     
     MKMapItem.openMaps(with: [source, destination], launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
+  }
+  
+  func stop() {
+    endTime = Date()
+    
+    let difference = endTime?.timeIntervalSince(startTime!)
+    let interval = Int(difference!)
+    let (h,m,s) = self.secondsToHoursMinutesSeconds(seconds: Double(interval))
+    self.actualTravelTime = "Actual Travel Time: \(h) hrs \(m) min \(s) sec"
   }
 }
 

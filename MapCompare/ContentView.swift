@@ -18,45 +18,60 @@ struct ContentView: View {
   var body: some View {
     ZStack() {
       VStack(spacing: 25) {
-        TextField("Origin", text: $viewModel.origin)
-        TextField("Destination", text: $viewModel.destination)
-        
-        Button(action: {
-          self.viewModel.calculateEstimates()
-        }) {
-          Text("Calculate")
+        Group() {
+          TextField("Origin", text: $viewModel.origin)
+          TextField("Destination", text: $viewModel.destination)
+          
+          Button(action: {
+            self.viewModel.calculateEstimates()
+          }) {
+            Text("Calculate")
+          }
         }
         
         Divider()
         
-        HStack {
-          Text(viewModel.appleEstimatedTime)
-          Spacer()
-          ActivityIndicator(shouldAnimate: $viewModel.appleLoading)
+        Group() {
+          HStack {
+            Text(viewModel.appleEstimatedTime)
+            Spacer()
+            ActivityIndicator(shouldAnimate: $viewModel.appleLoading)
+          }
+          HStack {
+            Text(viewModel.googleEstimatedTime)
+            Spacer()
+            ActivityIndicator(shouldAnimate: $viewModel.googleLoading)
+          }
+          HStack {
+            Text(viewModel.hereEstimatedTime)
+            Spacer()
+            ActivityIndicator(shouldAnimate: $viewModel.hereLoading)
+          }
         }
-        HStack {
-          Text(viewModel.googleEstimatedTime)
-          Spacer()
-          ActivityIndicator(shouldAnimate: $viewModel.googleLoading)
-        }
-        HStack {
-          Text(viewModel.hereEstimatedTime)
-          Spacer()
-          ActivityIndicator(shouldAnimate: $viewModel.hereLoading)
+        
+        Divider()
+        
+        Group() {
+          HStack() {
+            Button(action: {
+              self.viewModel.openDirections()
+            }) {
+              Text("Start")
+            } .padding(.horizontal, 25)
+            
+            Button(action: {
+              self.viewModel.stop()
+            }) {
+              Text("Stop")
+            } .padding(.horizontal, 25)
+          }
         }
         
         Divider()
         
         HStack() {
-          Button(action: {
-            self.viewModel.openDirections()
-          }) {
-            Text("Start")
-          } .padding(.horizontal, 25)
-          
-          Button(action: {}) {
-            Text("Stop")
-          } .padding(.horizontal, 25)
+          Text(viewModel.actualTravelTime)
+          Spacer()
         }
         
         Spacer()
