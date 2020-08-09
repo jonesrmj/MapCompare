@@ -34,7 +34,7 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
   @Published var appleLoading: Bool = false
   @Published var googleLoading: Bool = false
   @Published var hereLoading: Bool = false
-  @Published var actualTravelTime: String = ""
+  @Published var actualTravelTime: String = "Actual Travel Time:"
   
   override init() {
     completer = MKLocalSearchCompleter()
@@ -173,7 +173,7 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
     source.name = "\(origin)"
     
     let destination = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: destinationLocation!.latitude, longitude: destinationLocation!.longitude)))
-    destination.name = "\(destination)"
+    destination.name = "\(self.destination)"
     
     MKMapItem.openMaps(with: [source, destination], launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
   }
