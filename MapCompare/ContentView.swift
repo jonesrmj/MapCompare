@@ -81,25 +81,32 @@ struct ContentView: View {
       
       // Popup
       if !viewModel.suggestedAddresses.isEmpty {
-        VStack(alignment: .leading) {
-          List(viewModel.suggestedAddresses.prefix(5)) { address in
-            VStack(alignment: .leading) {
-              Text(address.title)
-              Text(address.subtitle)
-                .font(.subheadline)
-                .foregroundColor(.gray)
-                .onTapGesture {
-                  self.viewModel.setDestination(destination: address)
+        VStack() {
+          VStack(alignment: .leading) {
+            ForEach(viewModel.suggestedAddresses.prefix(5)) { address in
+              VStack(alignment: .leading) {
+                Text(address.title)
+                Text(address.subtitle)
+                  .font(.subheadline)
+                  .foregroundColor(.gray)
+                Divider()
+              }
+              .padding(5)
+              .contentShape(Rectangle())
+              .onTapGesture {
+                self.viewModel.setDestination(destination: address)
               }
             }
+            //Spacer()
           }
-          .frame(height: CGFloat(viewModel.suggestedAddresses.count > 5 ? 250 : viewModel.suggestedAddresses.count * 50))
+          .background(Color.white)
+          .cornerRadius(5)
+          .offset(y: 100)
+          .padding(.horizontal, 15)
+          .shadow(radius: 5)
+
           Spacer()
         }
-        .padding()
-        .offset(y: 90) // 40 for origin
-        .shadow(radius: 5)
-        .cornerRadius(5)
       }
     }
   }
