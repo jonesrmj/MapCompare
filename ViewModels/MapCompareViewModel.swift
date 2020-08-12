@@ -25,6 +25,8 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
   private var startTime: Date?
   private var endTime: Date?
   
+  var trip = TripModel()
+  
   @Published var origin: String = ""
   @Published var destination: String = ""
   @Published var appleEstimatedTime: String = "Apple Estimate:"
@@ -38,7 +40,7 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
   
   override init() {
     completer = MKLocalSearchCompleter()
-    
+        
     super.init()
     
     cancellable = $destination.assign(to: \.queryFragment, on: self.completer)
