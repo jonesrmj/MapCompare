@@ -46,6 +46,11 @@ struct ContentView: View {
               Spacer()
               ActivityIndicator(shouldAnimate: $viewModel.hereLoading)
             }
+            HStack {
+              Text(viewModel.bingEstimatedTime)
+              Spacer()
+              ActivityIndicator(shouldAnimate: $viewModel.bingLoading)
+            }
           }
           
           Divider()

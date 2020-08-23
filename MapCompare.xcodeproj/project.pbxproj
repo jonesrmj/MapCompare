@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		69282B8A24F1C17A00927D31 /* BingMapsDuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69282B8924F1C17A00927D31 /* BingMapsDuration.swift */; };
 		692B364924D70BA10092B5AC /* GoogleMapsDuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692B364824D70BA10092B5AC /* GoogleMapsDuration.swift */; };
 		692B364B24D71FA70092B5AC /* HereMapsDuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692B364A24D71FA70092B5AC /* HereMapsDuration.swift */; };
 		693C400924CDD63B00D812CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693C400824CDD63B00D812CB /* AppDelegate.swift */; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		69282B8924F1C17A00927D31 /* BingMapsDuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingMapsDuration.swift; sourceTree = "<group>"; };
 		692B364824D70BA10092B5AC /* GoogleMapsDuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapsDuration.swift; sourceTree = "<group>"; };
 		692B364A24D71FA70092B5AC /* HereMapsDuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HereMapsDuration.swift; sourceTree = "<group>"; };
 		693C400524CDD63B00D812CB /* MapCompare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapCompare.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -168,6 +170,7 @@
 			children = (
 				692B364824D70BA10092B5AC /* GoogleMapsDuration.swift */,
 				692B364A24D71FA70092B5AC /* HereMapsDuration.swift */,
+				69282B8924F1C17A00927D31 /* BingMapsDuration.swift */,
 				695CC30A24E4619A0080A90A /* TripModel.swift */,
 			);
 			path = Models;
@@ -322,6 +325,7 @@
 				696B615A24DF41D900E4BE79 /* ActivityIndicator.swift in Sources */,
 				693C400B24CDD63B00D812CB /* SceneDelegate.swift in Sources */,
 				693C400D24CDD63B00D812CB /* ContentView.swift in Sources */,
+				69282B8A24F1C17A00927D31 /* BingMapsDuration.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

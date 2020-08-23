@@ -14,6 +14,7 @@ import MapKit
 
 //Google Maps API Key - AIzaSyDTi_XOeVlQM9sRq8Vntlw-8c8vsbxqrbI
 //Here Maps API Key - J9mnOKeM9hvkDM84Z2XDLjXCi3b6SoRMRMtOM9YyWSU
+//Bing Maps API Key - AuZh08gukk6RY79-n6QxsPUdifLbkVcjr3W-FIjmdXs5JkscAGiKCF1G5sYc1-Vs
 
 class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDelegate {
   private let locationManager = CLLocationManager()
@@ -32,10 +33,12 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
   @Published var appleEstimatedTime: String = "Apple Estimate:"
   @Published var googleEstimatedTime: String = "Google Estimate:"
   @Published var hereEstimatedTime: String = "Here Estimate:"
+  @Published var bingEstimatedTime: String = "Bing Estimate:"
   @Published var suggestedAddresses: [MKLocalSearchCompletion] = []
   @Published var appleLoading: Bool = false
   @Published var googleLoading: Bool = false
   @Published var hereLoading: Bool = false
+  @Published var bingLoading: Bool = false
   @Published var actualTravelTime: String = "Actual Travel Time:"
   
   override init() {
@@ -98,6 +101,7 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
     calculateAppleEstimate()
     calculateGoogleEstimate()
     calculateHereEstimate()
+    calculateBingEstimate()
   }
   
   func calculateAppleEstimate() {
@@ -158,6 +162,27 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
             let (h,m,s) = self.secondsToHoursMinutesSeconds(seconds: Double(json.getDuration()))
             self.hereLoading = false
             self.hereEstimatedTime = "Here Estimate: \(h) hrs \(m) min \(s) sec"
+          }
+        }
+      }.resume()
+    }
+  }
+  
+  func calculateBingEstimate() {
+    bingLoading = true
+    let urlString = "https://dev.virtualearth.net/REST/V1/Routes?wp.0=\(currentLocation!.latitude),\(currentLocation!.longitude)&wp.1=\(destinationLocation!.latitude),\(destinationLocation!.longitude)&key=AuZh08gukk6RY79-n6QxsPUdifLbkVcjr3W-FIjmdXs5JkscAGiKCF1G5sYc1-Vs"
+    if let url = URL(string: urlString) {
+      URLSession.shared.dataTask(with: url) { data, res, err in
+        if let data = data {
+          print("bing initalize")
+          
+          let decoder = JSONDecoder()
+          if let json = try? decoder.decode(BingMapsResponse.self, from: data) {
+            print("processed json (bing)")
+            
+            let (h,m,s) = self.secondsToHoursMinutesSeconds(seconds: Double(json.getDuration()))
+            self.bingLoading = false
+            self.bingEstimatedTime = "Bing Estimate: \(h) hrs \(m) min \(s) sec"
           }
         }
       }.resume()
