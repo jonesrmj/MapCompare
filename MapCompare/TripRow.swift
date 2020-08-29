@@ -19,12 +19,12 @@ struct TripRow: View {
   var body: some View {
     VStack(alignment: .leading) {
       Text(trip.title)
-        .font(.title)
+        .font(.subheadline)
       HStack {
-        Text(String(trip.tripActualSeconds))
+        Text(String(trip.tripActualTime))
           .font(.caption)
         Spacer()
-        Text(Self.dateFormatter.string(from: trip.tripStart))
+        Text(Self.dateFormatter.string(from: trip.tripStart!))
           .font(.caption)
       }
     }

@@ -18,8 +18,8 @@ struct ContentView: View {
       ZStack() {
         VStack(spacing: 25) {
           Group() {
-            TextField("Origin", text: $viewModel.origin)
-            TextField("Destination", text: $viewModel.destination)
+            TextField("Origin", text: $viewModel.originDisplay)
+            TextField("Destination", text: $viewModel.destinationDisplay)
             
             Button(action: {
               self.viewModel.calculateEstimates()
@@ -32,22 +32,22 @@ struct ContentView: View {
           
           Group() {
             HStack {
-              Text(viewModel.appleEstimatedTime)
+              Text(viewModel.appleEstimatedTimeDisplay)
               Spacer()
               ActivityIndicator(shouldAnimate: $viewModel.appleLoading)
             }
             HStack {
-              Text(viewModel.googleEstimatedTime)
+              Text(viewModel.googleEstimatedTimeDisplay)
               Spacer()
               ActivityIndicator(shouldAnimate: $viewModel.googleLoading)
             }
             HStack {
-              Text(viewModel.hereEstimatedTime)
+              Text(viewModel.hereEstimatedTimeDisplay)
               Spacer()
               ActivityIndicator(shouldAnimate: $viewModel.hereLoading)
             }
             HStack {
-              Text(viewModel.bingEstimatedTime)
+              Text(viewModel.bingEstimatedTimeDisplay)
               Spacer()
               ActivityIndicator(shouldAnimate: $viewModel.bingLoading)
             }
@@ -74,7 +74,7 @@ struct ContentView: View {
           Divider()
           
           HStack() {
-            Text(viewModel.actualTravelTime)
+            Text(viewModel.actualTravelTimeDisplay)
             Spacer()
           }
           

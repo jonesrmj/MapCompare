@@ -10,71 +10,73 @@ import Foundation
 
 struct TripModel: Identifiable {
   var id = UUID()
-  var title: String
-  var tripStart: Date
-  var tripEnd: Date
-  var appleEstimatedSeconds: Int
-  var googleEstimatedSeconds: Int
-  var hereEstimatedSeconds: Int
-  var bingEstimatedSeconds: Int
-  var tripActualSeconds: Int
-  var appleDeltaSeconds: Int
-  var googleDeltaSeconds: Int
-  var hereDeltaSeconds: Int
-  var bingDeltaSeconds: Int
+  var title: String { return originTitle != "" && destinationTitle != "" ? originTitle + " -> " + destinationTitle : "No Title" }
+  var originTitle: String
+  var originLat: Double
+  var originLong: Double
+  var destinationTitle: String
+  var destinationLat: Double
+  var destinationLong: Double
+  var tripStart: Date?
+  var tripEnd: Date?
+  var appleEstimatedSeconds: Double
+  var googleEstimatedSeconds: Double
+  var hereEstimatedSeconds: Double
+  var bingEstimatedSeconds: Double
+  
+  var tripActualSeconds: Double { return tripEnd != nil && tripStart != nil ? tripEnd!.timeIntervalSince(tripStart!) : 0 }
+  var tripActualTime: String { return TripModel.displayTimeFromSeconds(label: "", seconds: tripActualSeconds) }
+  var appleDeltaSeconds: Double { return appleEstimatedSeconds - tripActualSeconds }
+  var googleDeltaSeconds: Double { return googleEstimatedSeconds - tripActualSeconds }
+  var hereDeltaSeconds: Double { return hereEstimatedSeconds - tripActualSeconds }
+  var bingDeltaSeconds: Double { return bingEstimatedSeconds - tripActualSeconds }
   
   init(
-    title: String,
+    originTitle: String,
+    originLat: Double,
+    originLong: Double,
+    destinationTitle: String,
+    destinationLat: Double,
+    destinationLong: Double,
     tripStart: Date,
     tripEnd: Date,
-    appleEstimatedSeconds: Int,
-    googleEstimatedSeconds: Int,
-    hereEstimatedSeconds: Int,
-    bingEstimatedSeconds: Int ) {
+    appleEstimatedSeconds: Double,
+    googleEstimatedSeconds: Double,
+    hereEstimatedSeconds: Double,
+    bingEstimatedSeconds: Double ) {
     
-    self.title = title
+    self.originTitle = originTitle
+    self.originLat = originLat
+    self.originLong = originLong
+    self.destinationTitle = destinationTitle
+    self.destinationLat = destinationLat
+    self.destinationLong = destinationLong
     self.tripStart = tripStart
     self.tripEnd = tripEnd
     self.appleEstimatedSeconds = appleEstimatedSeconds
     self.googleEstimatedSeconds = googleEstimatedSeconds
     self.hereEstimatedSeconds = hereEstimatedSeconds
     self.bingEstimatedSeconds = bingEstimatedSeconds
-    
-    tripActualSeconds = 0
-    appleDeltaSeconds = 0
-    googleDeltaSeconds = 0
-    hereDeltaSeconds = 0
-    bingDeltaSeconds = 0
-    
-    calcTrip()
   }
   
   init() {
-    title = ""
+    originTitle = ""
+    originLat = 0
+    originLong = 0
+    destinationTitle = ""
+    destinationLat = 0
+    destinationLong = 0
     tripStart = Date()
     tripEnd = Date()
     appleEstimatedSeconds = 0
     googleEstimatedSeconds = 0
     hereEstimatedSeconds = 0
     bingEstimatedSeconds = 0
-    
-    tripActualSeconds = 0
-    appleDeltaSeconds = 0
-    googleDeltaSeconds = 0
-    hereDeltaSeconds = 0
-    bingDeltaSeconds = 0
-
-    calcTrip()
   }
   
-  mutating private func calcTrip() {
-    let difference = tripEnd.timeIntervalSince(tripStart)
-    let interval = Int(difference)
-    tripActualSeconds = interval
-    
-    appleDeltaSeconds = appleEstimatedSeconds - tripActualSeconds
-    googleDeltaSeconds = googleEstimatedSeconds - tripActualSeconds
-    hereDeltaSeconds = hereEstimatedSeconds - tripActualSeconds
-    bingDeltaSeconds = bingEstimatedSeconds - tripActualSeconds
+  static func displayTimeFromSeconds(label: String, seconds: Double) -> String {
+    let (h,m,s) = (Int(seconds) / 3600, (Int(seconds) % 3600) / 60, (Int(seconds) % 3600) % 60)
+    let prefix = !label.isEmpty ? "\(label): " : ""
+    return "\(prefix)\(h) hrs \(m) min \(s) sec"
   }
 }
