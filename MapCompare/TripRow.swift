@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct TripRow: View {
-  let trip: TripModel
+  let trip: Trip
   static let dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.dateStyle = .long

@@ -11,12 +11,15 @@ import SwiftUI
 import Combine
 import CoreLocation
 import MapKit
+import CoreData
 
 //Google Maps API Key - AIzaSyDTi_XOeVlQM9sRq8Vntlw-8c8vsbxqrbI
 //Here Maps API Key - J9mnOKeM9hvkDM84Z2XDLjXCi3b6SoRMRMtOM9YyWSU
 //Bing Maps API Key - AuZh08gukk6RY79-n6QxsPUdifLbkVcjr3W-FIjmdXs5JkscAGiKCF1G5sYc1-Vs
 
 class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDelegate {
+  private var managedObjectContext: NSManagedObjectContext
+  
   private let locationManager = CLLocationManager()
   private var currentRegion: MKCoordinateRegion?
   private var currentLocation: CLLocationCoordinate2D?
@@ -26,7 +29,7 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
   private var startTime: Date?
   private var endTime: Date?
   
-  var trip = TripModel()
+  var trip: Trip?
   
   @Published var originDisplay: String = ""
   @Published var destinationDisplay: String = ""
@@ -43,9 +46,11 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
   
   override init() {
     completer = MKLocalSearchCompleter()
-        
+    
     super.init()
     
+    trip = Trip(context: managedObjectContext)
+
     cancellable = $destinationDisplay.assign(to: \.queryFragment, on: self.completer)
     locationManager.delegate = self
     completer.delegate = self
@@ -86,14 +91,14 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
   
   func setDestination(destination: MKLocalSearchCompletion) {
     self.destinationDisplay = destination.title
-    self.trip.destinationTitle = destination.title
+    self.trip!.destinationTitle = destination.title
     
     let geocoder = CLGeocoder()
     geocoder.geocodeAddressString(destination.title + ", " + destination.subtitle) { placemarks, error in
       let d = placemarks!.first
       self.destinationLocation = CLLocationCoordinate2D(latitude: d!.location!.coordinate.latitude, longitude: d!.location!.coordinate.longitude)
-      self.trip.destinationLat = self.destinationLocation!.latitude
-      self.trip.destinationLong = self.destinationLocation!.longitude
+      self.trip!.destinationLat = self.destinationLocation!.latitude
+      self.trip!.destinationLong = self.destinationLocation!.longitude
     }
     
     completer.cancel()
@@ -123,11 +128,11 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
         return
       }
       
-      self.trip.appleEstimatedSeconds = mapRoute.expectedTravelTime
+      self.trip!.appleEstimatedSeconds = mapRoute.expectedTravelTime
       
       DispatchQueue.main.async {
         self.appleLoading = false
-        self.appleEstimatedTimeDisplay = TripModel.displayTimeFromSeconds(label: "Apple Estimate" , seconds: self.trip.appleEstimatedSeconds)
+        self.appleEstimatedTimeDisplay = TripModel.displayTimeFromSeconds(label: "Apple Estimate" , seconds: self.trip!.appleEstimatedSeconds)
       }
     }
   }
@@ -140,11 +145,11 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
         if let data = data {
           let decoder = JSONDecoder()
           if let json = try? decoder.decode(GoogleMapsResponse.self, from: data) {
-            self.trip.googleEstimatedSeconds = Double(json.getDuration())
+            self.trip!.googleEstimatedSeconds = Double(json.getDuration())
             
             DispatchQueue.main.async {
               self.googleLoading = false
-              self.googleEstimatedTimeDisplay = TripModel.displayTimeFromSeconds(label: "Google Estimate" , seconds: self.trip.googleEstimatedSeconds)
+              self.googleEstimatedTimeDisplay = TripModel.displayTimeFromSeconds(label: "Google Estimate" , seconds: self.trip!.googleEstimatedSeconds)
             }
           }
         }
@@ -160,11 +165,11 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
         if let data = data {
           let decoder = JSONDecoder()
           if let json = try? decoder.decode(HereMapsResponse.self, from: data) {
-            self.trip.hereEstimatedSeconds = Double(json.getDuration())
+            self.trip!.hereEstimatedSeconds = Double(json.getDuration())
             
             DispatchQueue.main.async {
               self.hereLoading = false
-              self.hereEstimatedTimeDisplay = TripModel.displayTimeFromSeconds(label: "Here Estimate" , seconds: self.trip.hereEstimatedSeconds)
+              self.hereEstimatedTimeDisplay = TripModel.displayTimeFromSeconds(label: "Here Estimate" , seconds: self.trip!.hereEstimatedSeconds)
             }
           }
         }
@@ -180,11 +185,11 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
         if let data = data {
           let decoder = JSONDecoder()
           if let json = try? decoder.decode(BingMapsResponse.self, from: data) {
-            self.trip.bingEstimatedSeconds = Double(json.getDuration())
+            self.trip!.bingEstimatedSeconds = Double(json.getDuration())
             
             DispatchQueue.main.async {
               self.bingLoading = false
-              self.bingEstimatedTimeDisplay = TripModel.displayTimeFromSeconds(label: "Bing Estimate" , seconds: self.trip.bingEstimatedSeconds)
+              self.bingEstimatedTimeDisplay = TripModel.displayTimeFromSeconds(label: "Bing Estimate" , seconds: self.trip!.bingEstimatedSeconds)
             }
           }
         }
@@ -194,7 +199,7 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
   
   func openDirections() {
     startTime = Date()
-    trip.tripStart = startTime
+    trip!.tripStart = startTime
     
     let source = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: currentLocation!.latitude, longitude: currentLocation!.longitude)))
     source.name = "\(originDisplay)"
@@ -207,9 +212,17 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
   
   func stop() {
     endTime = Date()
-    trip.tripEnd = endTime
+    trip!.tripEnd = endTime
     
-    self.actualTravelTimeDisplay = TripModel.displayTimeFromSeconds(label: "Actual Travel Time", seconds: self.trip.tripActualSeconds)
+    self.actualTravelTimeDisplay = TripModel.displayTimeFromSeconds(label: "Actual Travel Time", seconds: self.trip!.tripActualSeconds)
+  }
+  
+  func saveContext() {
+    do {
+      try managedObjectContext.save()
+    } catch {
+      print("Error saving managed object context: \(error)")
+    }
   }
 }
 
@@ -248,10 +261,10 @@ extension MapCompareViewModel: CLLocationManagerDelegate {
       // 4 (Store the current location and update the field)
       //self.currentPlace = firstPlace
       self.originDisplay = firstPlace.name ?? "Current Location"
-      self.trip.originTitle = self.originDisplay
+      self.trip!.originTitle = self.originDisplay
       self.currentLocation = loc.coordinate
-      self.trip.originLat = self.currentLocation!.latitude
-      self.trip.originLong = self.currentLocation!.longitude
+      self.trip!.originLat = self.currentLocation!.latitude
+      self.trip!.originLong = self.currentLocation!.longitude
       self.currentRegion = region
     }
   }

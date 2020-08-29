@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		69179AE524FAF59E00C33534 /* MapCompare.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 69179AD424FABEB700C33534 /* MapCompare.xcdatamodeld */; };
+		69179AE624FAF5ED00C33534 /* Trip+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69179AE124FAF0DF00C33534 /* Trip+CoreDataProperties.swift */; };
+		69179AE724FAF5F000C33534 /* Trip+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69179AE024FAF0DF00C33534 /* Trip+CoreDataClass.swift */; };
 		69282B8A24F1C17A00927D31 /* BingMapsDuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69282B8924F1C17A00927D31 /* BingMapsDuration.swift */; };
 		692B364924D70BA10092B5AC /* GoogleMapsDuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692B364824D70BA10092B5AC /* GoogleMapsDuration.swift */; };
 		692B364B24D71FA70092B5AC /* HereMapsDuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692B364A24D71FA70092B5AC /* HereMapsDuration.swift */; };
@@ -43,6 +46,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		69179AD524FABEB700C33534 /* MapCompare.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MapCompare.xcdatamodel; sourceTree = "<group>"; };
+		69179AE024FAF0DF00C33534 /* Trip+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Trip+CoreDataClass.swift"; sourceTree = "<group>"; };
+		69179AE124FAF0DF00C33534 /* Trip+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Trip+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		69282B8924F1C17A00927D31 /* BingMapsDuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BingMapsDuration.swift; sourceTree = "<group>"; };
 		692B364824D70BA10092B5AC /* GoogleMapsDuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapsDuration.swift; sourceTree = "<group>"; };
 		692B364A24D71FA70092B5AC /* HereMapsDuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HereMapsDuration.swift; sourceTree = "<group>"; };
@@ -92,9 +98,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		69179AD324FABE8100C33534 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				69179AE024FAF0DF00C33534 /* Trip+CoreDataClass.swift */,
+				69179AE124FAF0DF00C33534 /* Trip+CoreDataProperties.swift */,
+				69179AD424FABEB700C33534 /* MapCompare.xcdatamodeld */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		693C3FFC24CDD63B00D812CB = {
 			isa = PBXGroup;
 			children = (
+				69179AD324FABE8100C33534 /* Assets */,
 				696B615824DF41C600E4BE79 /* Views */,
 				6949570424CE4D5F00DEFB5F /* Models */,
 				6949570124CE41CF00DEFB5F /* ViewModels */,
@@ -319,9 +336,12 @@
 				693C400924CDD63B00D812CB /* AppDelegate.swift in Sources */,
 				695CC30B24E4619A0080A90A /* TripModel.swift in Sources */,
 				695CC30F24E46B6D0080A90A /* TripRow.swift in Sources */,
+				69179AE524FAF59E00C33534 /* MapCompare.xcdatamodeld in Sources */,
 				695CC30D24E464FC0080A90A /* TripList.swift in Sources */,
 				6949570324CE423C00DEFB5F /* MapCompareViewModel.swift in Sources */,
 				692B364924D70BA10092B5AC /* GoogleMapsDuration.swift in Sources */,
+				69179AE724FAF5F000C33534 /* Trip+CoreDataClass.swift in Sources */,
+				69179AE624FAF5ED00C33534 /* Trip+CoreDataProperties.swift in Sources */,
 				696B615A24DF41D900E4BE79 /* ActivityIndicator.swift in Sources */,
 				693C400B24CDD63B00D812CB /* SceneDelegate.swift in Sources */,
 				693C400D24CDD63B00D812CB /* ContentView.swift in Sources */,
@@ -646,6 +666,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		69179AD424FABEB700C33534 /* MapCompare.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				69179AD524FABEB700C33534 /* MapCompare.xcdatamodel */,
+			);
+			currentVersion = 69179AD524FABEB700C33534 /* MapCompare.xcdatamodel */;
+			path = MapCompare.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 693C3FFD24CDD63B00D812CB /* Project object */;
 }

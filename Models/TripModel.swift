@@ -10,7 +10,6 @@ import Foundation
 
 struct TripModel: Identifiable {
   var id = UUID()
-  var title: String { return originTitle != "" && destinationTitle != "" ? originTitle + " -> " + destinationTitle : "No Title" }
   var originTitle: String
   var originLat: Double
   var originLong: Double
@@ -24,6 +23,7 @@ struct TripModel: Identifiable {
   var hereEstimatedSeconds: Double
   var bingEstimatedSeconds: Double
   
+  var title: String { return originTitle != "" && destinationTitle != "" ? originTitle + " -> " + destinationTitle : "No Title" }
   var tripActualSeconds: Double { return tripEnd != nil && tripStart != nil ? tripEnd!.timeIntervalSince(tripStart!) : 0 }
   var tripActualTime: String { return TripModel.displayTimeFromSeconds(label: "", seconds: tripActualSeconds) }
   var appleDeltaSeconds: Double { return appleEstimatedSeconds - tripActualSeconds }
@@ -73,6 +73,15 @@ struct TripModel: Identifiable {
     hereEstimatedSeconds = 0
     bingEstimatedSeconds = 0
   }
+  
+//  func copyTo(trip: Trip) {
+//    trip.originTitle = self.originTitle
+//    trip.originLat = self.originLat
+//    trip.originLong = self.originLong
+//    trip.destinationTitle = self.destinationTitle
+//    trip.destinationLat = self.destinationLat
+//    trip.destinationLong
+//  }
   
   static func displayTimeFromSeconds(label: String, seconds: Double) -> String {
     let (h,m,s) = (Int(seconds) / 3600, (Int(seconds) % 3600) / 60, (Int(seconds) % 3600) % 60)

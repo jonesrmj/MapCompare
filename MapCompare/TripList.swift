@@ -9,22 +9,27 @@
 import SwiftUI
 
 struct TripList: View {
-  @State var trips: [TripModel] = []
+  @Environment(\.managedObjectContext) var managedObjectContext
+  
+  @FetchRequest(
+    entity: Trip.entity(),
+    sortDescriptors: [
+      NSSortDescriptor(keyPath: \Trip.tripStart, ascending: false)
+    ]
+  ) var trips: FetchedResults<Trip>
+  
   @State var isPresented = false
   
   var body: some View {
     NavigationView {
       List {
-        ForEach(trips, id:\.id) {
+        ForEach(trips, id:\.tripStart) {
           TripRow(trip: $0)
         }
         .onDelete(perform: deleteTrip)
       }
       .sheet(isPresented: $isPresented)  {
-        ContentView { trip in
-          self.addTrip(trip: trip)
-          self.isPresented = false
-        }
+        ContentView(isPresented: self.$isPresented).environment(\.managedObjectContext, self.managedObjectContext)
       }
       .navigationBarTitle(Text("Trips"))
         .navigationBarItems(trailing:
@@ -36,11 +41,11 @@ struct TripList: View {
   }
   
   func deleteTrip(at offsets: IndexSet) {
-    self.trips.remove(atOffsets: offsets)
+    //self.trips.remove(atOffsets: offsets)
   }
   
   func addTrip(trip: TripModel) {
-    trips.append(trip)
+    //trips.append(trip)
   }
 }
 
