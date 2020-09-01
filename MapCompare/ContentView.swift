@@ -9,10 +9,9 @@
 import SwiftUI
 
 struct ContentView: View {
-  @Environment(\.managedObjectContext) var managedObjectContext
-  @Binding var isPresented: Bool
-  
   @ObservedObject var viewModel = MapCompareViewModel()
+  
+  let onComplete : (TripModel) -> Void
   
   var body: some View {
     NavigationView {
@@ -128,7 +127,8 @@ struct ContentView: View {
   }
   
   private func addTripAction() {
-    viewModel.saveContext()
-    isPresented = false
+    onComplete(
+      viewModel.trip
+    )
   }
 }

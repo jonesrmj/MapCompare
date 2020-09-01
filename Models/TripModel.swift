@@ -73,16 +73,7 @@ struct TripModel: Identifiable {
     hereEstimatedSeconds = 0
     bingEstimatedSeconds = 0
   }
-  
-//  func copyTo(trip: Trip) {
-//    trip.originTitle = self.originTitle
-//    trip.originLat = self.originLat
-//    trip.originLong = self.originLong
-//    trip.destinationTitle = self.destinationTitle
-//    trip.destinationLat = self.destinationLat
-//    trip.destinationLong
-//  }
-  
+
   static func displayTimeFromSeconds(label: String, seconds: Double) -> String {
     let (h,m,s) = (Int(seconds) / 3600, (Int(seconds) % 3600) / 60, (Int(seconds) % 3600) % 60)
     let prefix = !label.isEmpty ? "\(label): " : ""

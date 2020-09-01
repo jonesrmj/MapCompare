@@ -29,7 +29,10 @@ struct TripList: View {
         .onDelete(perform: deleteTrip)
       }
       .sheet(isPresented: $isPresented)  {
-        ContentView(isPresented: self.$isPresented).environment(\.managedObjectContext, self.managedObjectContext)
+        ContentView { trip in
+          self.addTrip(trip: trip)
+          self.isPresented = false
+        }
       }
       .navigationBarTitle(Text("Trips"))
         .navigationBarItems(trailing:
@@ -45,7 +48,17 @@ struct TripList: View {
   }
   
   func addTrip(trip: TripModel) {
-    //trips.append(trip)
+    let managedTrip = Trip(context: managedObjectContext)
+    managedTrip.setPropertiesUsingTripModel(trip: trip)
+    saveContext()
+  }
+  
+  func saveContext() {
+    do {
+      try managedObjectContext.save()
+    } catch {
+      print("Error saving managed object context: \(error)")
+    }
   }
 }
 

@@ -12,7 +12,9 @@ struct TripRow: View {
   let trip: Trip
   static let dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
-    formatter.dateStyle = .long
+    formatter.dateFormat = "M/dd/yy h:mma"
+    formatter.amSymbol = "am"
+    formatter.pmSymbol = "pm"
     return formatter
   }()
   
