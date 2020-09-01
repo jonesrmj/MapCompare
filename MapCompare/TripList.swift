@@ -44,7 +44,11 @@ struct TripList: View {
   }
   
   func deleteTrip(at offsets: IndexSet) {
-    //self.trips.remove(atOffsets: offsets)
+    offsets.forEach { index in
+      let trip = self.trips[index]
+      self.managedObjectContext.delete(trip)
+    }
+    saveContext()
   }
   
   func addTrip(trip: TripModel) {
