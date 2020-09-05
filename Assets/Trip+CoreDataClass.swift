@@ -21,10 +21,15 @@ public class Trip: NSManagedObject {
   var bingDeltaSeconds: Double { return bingEstimatedSeconds - tripActualSeconds }
   
   func setPropertiesUsingTripModel(trip: TripModel) {
-    self.originTitle = trip.originTitle
+    let comma: Set<Character> = [","]
+    var title = trip.originTitle
+    title.removeAll(where: { comma.contains($0) } )
+    self.originTitle = title
     self.originLat = trip.originLat
     self.originLong = trip.originLong
-    self.destinationTitle = trip.destinationTitle
+    title = trip.destinationTitle
+    title.removeAll(where: { comma.contains($0) } )
+    self.destinationTitle = title
     self.destinationLat = trip.destinationLat
     self.destinationLong = trip.destinationLong
     self.tripStart = trip.tripStart

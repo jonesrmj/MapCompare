@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct ContentView: View {
+  @Environment(\.presentationMode) var presentation
+
   @ObservedObject var viewModel = MapCompareViewModel()
   
   let onComplete : (TripModel) -> Void

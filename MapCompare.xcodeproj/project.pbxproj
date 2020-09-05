@@ -25,6 +25,7 @@
 		695CC30B24E4619A0080A90A /* TripModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695CC30A24E4619A0080A90A /* TripModel.swift */; };
 		695CC30D24E464FC0080A90A /* TripList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695CC30C24E464FC0080A90A /* TripList.swift */; };
 		695CC30F24E46B6D0080A90A /* TripRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695CC30E24E46B6D0080A90A /* TripRow.swift */; };
+		695FD6A02503CF9E008D63BD /* MailCompose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695FD69F2503CF9E008D63BD /* MailCompose.swift */; };
 		696B615A24DF41D900E4BE79 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B615924DF41D900E4BE79 /* ActivityIndicator.swift */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +71,7 @@
 		695CC30A24E4619A0080A90A /* TripModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripModel.swift; sourceTree = "<group>"; };
 		695CC30C24E464FC0080A90A /* TripList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripList.swift; sourceTree = "<group>"; };
 		695CC30E24E46B6D0080A90A /* TripRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRow.swift; sourceTree = "<group>"; };
+		695FD69F2503CF9E008D63BD /* MailCompose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailCompose.swift; sourceTree = "<group>"; };
 		696B615924DF41D900E4BE79 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -197,6 +199,7 @@
 			isa = PBXGroup;
 			children = (
 				696B615924DF41D900E4BE79 /* ActivityIndicator.swift */,
+				695FD69F2503CF9E008D63BD /* MailCompose.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -345,6 +348,7 @@
 				696B615A24DF41D900E4BE79 /* ActivityIndicator.swift in Sources */,
 				693C400B24CDD63B00D812CB /* SceneDelegate.swift in Sources */,
 				693C400D24CDD63B00D812CB /* ContentView.swift in Sources */,
+				695FD6A02503CF9E008D63BD /* MailCompose.swift in Sources */,
 				69282B8A24F1C17A00927D31 /* BingMapsDuration.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -22,6 +22,7 @@ struct TripRow: View {
     VStack(alignment: .leading) {
       Text(trip.title)
         .font(.subheadline)
+        .padding(.bottom, 10.0)
       HStack {
         Text(String(trip.tripActualTime))
           .font(.caption)
@@ -30,5 +31,6 @@ struct TripRow: View {
           .font(.caption)
       }
     }
+    .padding(.vertical, 10.0)
   }
 }
