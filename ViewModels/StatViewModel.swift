@@ -16,21 +16,36 @@ extension StatView {
     @Published var hereDeltaDisplay: String = ""
     @Published var bingDeltaDisplay: String = ""
     
-    override init() {
-      super.init()
-    }
+    @Published var appleCountDisplay: String = ""
+    @Published var googleCountDisplay: String = ""
+    @Published var hereCountDisplay: String = ""
+    @Published var bingCountDisplay: String = ""
     
-    func calcAverageDelta() {
+    func calcStats(trips: [Trip]) {
       var appleDelta: Double = 0
       var googleDelta: Double = 0
       var hereDelta: Double = 0
       var bingDelta: Double = 0
+      
+      var appleCount: Int = 0
+      var googleCount: Int = 0
+      var hereCount: Int = 0
+      var bingCount: Int = 0
       
       trips.forEach { (trip) in
         appleDelta += trip.appleDeltaSeconds
         googleDelta += trip.googleDeltaSeconds
         hereDelta += trip.hereDeltaSeconds
         bingDelta += trip.bingDeltaSeconds
+        
+        let winner = trip.mostAccurateProvider
+        
+        switch winner {
+          case "Apple" : appleCount += 1
+          case "Google" : googleCount += 1
+          case "Here" : hereCount += 1
+          default : bingCount += 1
+        }
       }
       
       let count = Double(trips.count)
@@ -39,10 +54,15 @@ extension StatView {
       hereDelta = hereDelta / count
       bingDelta = bingDelta / count
       
-      appleDeltaDisplay = String(appleDelta)
-      googleDeltaDisplay = String(googleDelta)
-      hereDeltaDisplay = String(hereDelta)
-      bingDeltaDisplay = String(bingDelta)
+      appleDeltaDisplay = TripModel.displayTimeFromSeconds(label: "", seconds: appleDelta)
+      googleDeltaDisplay = TripModel.displayTimeFromSeconds(label: "", seconds: googleDelta)
+      hereDeltaDisplay = TripModel.displayTimeFromSeconds(label: "", seconds: hereDelta)
+      bingDeltaDisplay = TripModel.displayTimeFromSeconds(label: "", seconds: bingDelta)
+      
+      appleCountDisplay = String(appleCount)
+      googleCountDisplay = String(googleCount)
+      hereCountDisplay = String(hereCount)
+      bingCountDisplay = String(bingCount)
     }
   }
 }

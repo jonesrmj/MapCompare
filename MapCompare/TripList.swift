@@ -32,12 +32,6 @@ struct TripList: View {
         }
         .onDelete(perform: deleteTrip)
       }
-      .sheet(isPresented: $isAddTripPresented)  {
-        ContentView { trip in
-          self.addTrip(trip: trip)
-          self.isAddTripPresented = false
-        }
-      }
       .navigationBarTitle(Text("Trips"))
         .navigationBarItems(trailing:
           HStack {
@@ -57,10 +51,17 @@ struct TripList: View {
             }
             .padding(.horizontal, 30.0)
             .sheet(isPresented: $isStatsPresented) {
-                StatView()
+              StatView(isStatsPresented: self.$isStatsPresented).environment(\.managedObjectContext, self.managedObjectContext)
+            }
             
             Button(action: { self.isAddTripPresented.toggle() }) {
               Image(systemName: "plus")
+            }
+            .sheet(isPresented: $isAddTripPresented)  {
+              ContentView(isAddTripPresented: self.$isAddTripPresented) { trip in
+                self.addTrip(trip: trip)
+                self.isAddTripPresented = false
+              }
             }
           }
       )

@@ -13,6 +13,8 @@ struct ContentView: View {
 
   @ObservedObject var viewModel = MapCompareViewModel()
   
+  @Binding var isAddTripPresented: Bool
+  
   let onComplete : (TripModel) -> Void
   
   var body: some View {
@@ -123,8 +125,14 @@ struct ContentView: View {
           }
         }
       }
-      .navigationBarTitle(Text("Add Trip"), displayMode:
-      .inline)
+      .navigationBarTitle(Text("Add Trip"), displayMode: .inline)
+      .navigationBarItems(leading: HStack {
+        Button(action: {
+          self.isAddTripPresented.toggle()
+        }) {
+          Text("Cancel")
+        }
+      })
     }
   }
   
