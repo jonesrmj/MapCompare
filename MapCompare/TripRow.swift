@@ -23,11 +23,14 @@ struct TripRow: View {
       Text(trip.title)
         .font(.subheadline)
         .padding(.bottom, 10.0)
+      Text(Self.dateFormatter.string(from: trip.tripStart!))
+        .font(.subheadline)
+        .padding(.bottom, 10.0)
       HStack {
-        Text(String(trip.tripActualTime))
+        Text(String(trip.mostAccurateProvider))
           .font(.caption)
         Spacer()
-        Text(Self.dateFormatter.string(from: trip.tripStart!))
+        Text(String(trip.tripActualTime))
           .font(.caption)
       }
     }

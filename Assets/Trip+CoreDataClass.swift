@@ -19,6 +19,11 @@ public class Trip: NSManagedObject {
   var googleDeltaSeconds: Double { return googleEstimatedSeconds - tripActualSeconds }
   var hereDeltaSeconds: Double { return hereEstimatedSeconds - tripActualSeconds }
   var bingDeltaSeconds: Double { return bingEstimatedSeconds - tripActualSeconds }
+  var mostAccurateProvider: String {
+    var scores: [(provider: String, delta: Double)] = [("Apple", appleDeltaSeconds), ("Google", googleDeltaSeconds), ("Here", hereDeltaSeconds), ("Bing", bingDeltaSeconds)]
+    scores.sort(by: {$0.delta < $1.delta})
+    return scores.first != nil ? scores.first!.provider : "None"
+  }
   
   func setPropertiesUsingTripModel(trip: TripModel) {
     let comma: Set<Character> = [","]
