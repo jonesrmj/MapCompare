@@ -56,6 +56,8 @@ struct TripList: View {
               Image(systemName: "gauge")
             }
             .padding(.horizontal, 30.0)
+            .sheet(isPresented: $isStatsPresented) {
+                StatView()
             
             Button(action: { self.isAddTripPresented.toggle() }) {
               Image(systemName: "plus")
