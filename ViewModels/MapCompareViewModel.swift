@@ -156,7 +156,7 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
   
   func calculateHereEstimate() {
     hereLoading = true
-    let urlString = "https://router.hereapi.com/v8/routes?transportMode=car&origin=\(currentLocation!.latitude),\(currentLocation!.longitude)&destination=\(destinationLocation!.latitude),\(destinationLocation!.longitude)&apiKey=J9mnOKeM9hvkDM84Z2XDLjXCi3b6SoRMRMtOM9YyWSU&return=summary"
+    let urlString = "https://router.hereapi.com/v8/routes?transportMode=car&origin=\(currentLocation!.latitude),\(currentLocation!.longitude)&destination=\(destinationLocation!.latitude),\(destinationLocation!.longitude)&mode=fastest;car;traffic:enabled&apiKey=J9mnOKeM9hvkDM84Z2XDLjXCi3b6SoRMRMtOM9YyWSU&return=summary"
     if let url = URL(string: urlString) {
       URLSession.shared.dataTask(with: url) { data, res, err in
         if let data = data {
@@ -176,7 +176,7 @@ class MapCompareViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDel
   
   func calculateBingEstimate() {
     bingLoading = true
-    let urlString = "https://dev.virtualearth.net/REST/V1/Routes?wp.0=\(currentLocation!.latitude),\(currentLocation!.longitude)&wp.1=\(destinationLocation!.latitude),\(destinationLocation!.longitude)&key=AuZh08gukk6RY79-n6QxsPUdifLbkVcjr3W-FIjmdXs5JkscAGiKCF1G5sYc1-Vs"
+    let urlString = "https://dev.virtualearth.net/REST/V1/Routes?wp.0=\(currentLocation!.latitude),\(currentLocation!.longitude)&wp.1=\(destinationLocation!.latitude),\(destinationLocation!.longitude)&optimize=timeWithTraffic&key=AuZh08gukk6RY79-n6QxsPUdifLbkVcjr3W-FIjmdXs5JkscAGiKCF1G5sYc1-Vs"
     if let url = URL(string: urlString) {
       URLSession.shared.dataTask(with: url) { data, res, err in
         if let data = data {

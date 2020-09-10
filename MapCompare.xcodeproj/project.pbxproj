@@ -27,6 +27,7 @@
 		695CC30F24E46B6D0080A90A /* TripRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695CC30E24E46B6D0080A90A /* TripRow.swift */; };
 		695FD6A02503CF9E008D63BD /* MailCompose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695FD69F2503CF9E008D63BD /* MailCompose.swift */; };
 		696B615A24DF41D900E4BE79 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B615924DF41D900E4BE79 /* ActivityIndicator.swift */; };
+		69A46BD9250998EB00A91E0A /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A46BD8250998EB00A91E0A /* AppState.swift */; };
 		69CA6FD92505264800A13B68 /* StatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CA6FD82505264800A13B68 /* StatView.swift */; };
 		69CA6FDB2505272F00A13B68 /* StatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CA6FDA2505272F00A13B68 /* StatViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -75,6 +76,7 @@
 		695CC30E24E46B6D0080A90A /* TripRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRow.swift; sourceTree = "<group>"; };
 		695FD69F2503CF9E008D63BD /* MailCompose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailCompose.swift; sourceTree = "<group>"; };
 		696B615924DF41D900E4BE79 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		69A46BD8250998EB00A91E0A /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		69CA6FD82505264800A13B68 /* StatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatView.swift; sourceTree = "<group>"; };
 		69CA6FDA2505272F00A13B68 /* StatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -197,6 +199,7 @@
 				692B364A24D71FA70092B5AC /* HereMapsDuration.swift */,
 				69282B8924F1C17A00927D31 /* BingMapsDuration.swift */,
 				695CC30A24E4619A0080A90A /* TripModel.swift */,
+				69A46BD8250998EB00A91E0A /* AppState.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 				69CA6FD92505264800A13B68 /* StatView.swift in Sources */,
 				692B364B24D71FA70092B5AC /* HereMapsDuration.swift in Sources */,
 				693C400924CDD63B00D812CB /* AppDelegate.swift in Sources */,
+				69A46BD9250998EB00A91E0A /* AppState.swift in Sources */,
 				695CC30B24E4619A0080A90A /* TripModel.swift in Sources */,
 				695CC30F24E46B6D0080A90A /* TripRow.swift in Sources */,
 				69179AE524FAF59E00C33534 /* MapCompare.xcdatamodeld in Sources */,

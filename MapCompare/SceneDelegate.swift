@@ -14,6 +14,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   
   var window: UIWindow?
   
+  var appState = AppState()
+  
   func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
     // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
     // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
@@ -21,7 +23,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     // Create the SwiftUI view that provides the window contents.
     let context = persistentContainer.viewContext
-    let contentView = TripList().environment(\.managedObjectContext, context)
+    let contentView = TripList()
+      .environment(\.managedObjectContext, context)
+      .environmentObject(appState)
     
     // Use a UIHostingController as window root view controller.
     if let windowScene = scene as? UIWindowScene {
@@ -29,6 +33,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       window.rootViewController = UIHostingController(rootView: contentView)
       self.window = window
       window.makeKeyAndVisible()
+    }
+    
+    if let activity = connectionOptions.userActivities.first ?? session.stateRestorationActivity {
+      appState.restore(from: activity)
     }
   }
   
@@ -49,6 +57,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     return container
   }()
   
+  func stateRestorationActivity(for scene: UIScene) -> NSUserActivity? {
+    let activity = NSUserActivity(activityType: Bundle.main.activityType)
+    appState.store(in: activity)
+    return activity
+  }
+  
   func saveContext() {
     let context = persistentContainer.viewContext
     if context.hasChanges {
@@ -62,3 +76,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   }
 }
 
+extension Bundle {
+  var activityType: String {
+    return Bundle.main.infoDictionary?["NSUserActivityTypes"].flatMap { ($0 as? [String] )?.first } ?? ""
+  }
+}

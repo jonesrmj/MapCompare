@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ContentView: View {
-  @Environment(\.presentationMode) var presentation
+  @Environment(\.presentationMode) var presentationMode
 
   @ObservedObject var viewModel = MapCompareViewModel()
   

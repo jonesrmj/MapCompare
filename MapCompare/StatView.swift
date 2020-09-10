@@ -11,7 +11,7 @@ import SwiftUI
 
 struct StatView: View {
   @Environment(\.managedObjectContext) var managedObjectContext
-  @Environment(\.presentationMode) var presentation
+  @Environment(\.presentationMode) var presentationMode
   
   @State var viewModel = StatViewModel()
   @Binding var isStatsPresented: Bool

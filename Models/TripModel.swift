@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct TripModel: Identifiable {
+struct TripModel: Identifiable, Decodable, Encodable {
   var id = UUID()
   var originTitle: String
   var originLat: Double
