@@ -1,5 +1,5 @@
 //
-//  TripList.swift
+//  TripListView.swift
 //  MapCompare
 //
 //  Created by Ryan Jones on 8/12/20.
@@ -9,8 +9,9 @@
 import SwiftUI
 import MessageUI
 
-struct TripList: View {
+struct TripListView: View {
   @Environment(\.managedObjectContext) var managedObjectContext
+  @EnvironmentObject var appState: AppState
   
   @FetchRequest(
     entity: Trip.entity(),
@@ -19,53 +20,66 @@ struct TripList: View {
     ]
   ) var trips: FetchedResults<Trip>
   
-  @State var isAddTripPresented = false
-  @State var isEmailPresented = false
-  @State var isStatsPresented = false
   @State var result: Result<MFMailComposeResult, Error>? = nil
   
   var body: some View {
     NavigationView {
-      List {
-        ForEach(trips, id:\.tripStart) {
-          TripRow(trip: $0)
+      VStack {
+        List {
+          ForEach(trips, id:\.tripStart) {
+            TripRowView(trip: $0)
+          }
+          .onDelete(perform: deleteTrip)
         }
-        .onDelete(perform: deleteTrip)
       }
       .navigationBarTitle(Text("Trips"))
-        .navigationBarItems(trailing:
-          HStack {
+      .navigationBarItems(trailing:
+        HStack {
+          VStack {
             Button(action: {
               self.generateCSVText(withManagedObjects: self.trips)
-              self.isEmailPresented.toggle()
+              self.appState.isEmailPresented.toggle()
             }) {
               Image(systemName: "envelope")
             }
             .disabled(!MFMailComposeViewController.canSendMail())
-            .sheet(isPresented: $isEmailPresented) {
-                MailView(result: self.$result)
-            }
-            
-            Button(action: { self.isStatsPresented.toggle() }) {
+          }
+          
+          VStack {
+            Button(action: { self.appState.isStatsPresented.toggle() }) {
               Image(systemName: "gauge")
             }
             .padding(.horizontal, 30.0)
-            .sheet(isPresented: $isStatsPresented) {
-              StatView(isStatsPresented: self.$isStatsPresented).environment(\.managedObjectContext, self.managedObjectContext)
-            }
-            
-            Button(action: { self.isAddTripPresented.toggle() }) {
-              Image(systemName: "plus")
-            }
-            .sheet(isPresented: $isAddTripPresented)  {
-              ContentView(isAddTripPresented: self.$isAddTripPresented) { trip in
-                self.addTrip(trip: trip)
-                self.isAddTripPresented = false
-              }
-            }
           }
+          
+          Button(action: { self.appState.isAddTripPresented = true }) {
+            Image(systemName: "plus")
+          }
+        }
       )
     }
+    .sheet(isPresented: $appState.isAddTripPresented, onDismiss: {
+      self.appState.tripModel = TripModel()
+    }) {
+      AddTripView(viewModel: AddTripViewModel(tripModel: self.appState.tripModel)) {
+        self.addTrip()
+        self.appState.isAddTripPresented = false
+      }
+      .environmentObject(self.appState)
+    }
+    .background(
+      EmptyView()
+      .sheet(isPresented: $appState.isStatsPresented) {
+        StatView(isStatsPresented: self.$appState.isStatsPresented)
+        .environment(\.managedObjectContext, self.managedObjectContext)
+      }
+    )
+    .background(
+      EmptyView()
+      .sheet(isPresented: $appState.isEmailPresented) {
+        MailView(result: self.$result)
+      }
+    )
   }
   
   func deleteTrip(at offsets: IndexSet) {
@@ -76,9 +90,9 @@ struct TripList: View {
     saveContext()
   }
   
-  func addTrip(trip: TripModel) {
+  func addTrip() {
     let managedTrip = Trip(context: managedObjectContext)
-    managedTrip.setPropertiesUsingTripModel(trip: trip)
+    managedTrip.setPropertiesUsingTripModel(trip: appState.tripModel)
     saveContext()
   }
   
@@ -107,11 +121,5 @@ struct TripList: View {
     } catch let error {
       print("Error creating CSV: \(error.localizedDescription)")
     }
-  }
-}
-
-struct TripList_Previews: PreviewProvider {
-  static var previews: some View {
-    TripList()
   }
 }

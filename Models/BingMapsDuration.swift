@@ -23,21 +23,3 @@ struct BingMapsResourceSet: Decodable {
 struct BingMapsResource: Decodable {
   let travelDurationTraffic: Int
 }
-
-//{
-//    "resourceSets": [
-//        {
-//            "estimatedTotal": 1,
-//            "resources": [
-//                {
-//                    "travelDistance": 636.877,
-//                    "travelDuration": 22698,
-//                    "travelDurationTraffic": 24272,
-//                }
-//            ]
-//        }
-//    ],
-//    "statusCode": 200,
-//    "statusDescription": "OK",
-//    "traceId": "2af70124c9fb4c798db4c80fd9dec3b5|BN00002092|0.0.0.0|BN00001862, Leg0-BN0000182E"
-//}

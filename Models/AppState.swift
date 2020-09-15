@@ -21,29 +21,39 @@ extension AppState {
       let encodedTripModel = activity.userInfo?[Key.tripModel] as? Data,
       let isAddTripPresented = activity.userInfo?[Key.isAddTripPresented] as? Bool,
       let isEmailPresented = activity.userInfo?[Key.isEmailPresented] as? Bool,
-      let isStatspPresented = activity.userInfo?[Key.isStatsPresented] as? Bool
+      let isStatsPresented = activity.userInfo?[Key.isStatsPresented] as? Bool
       else {
         return
+    }
+    
+    self.isAddTripPresented = isAddTripPresented
+    self.isEmailPresented = isEmailPresented
+    self.isStatsPresented = isStatsPresented
+    
+    if (!isAddTripPresented) {
+      return
     }
     
     let decoder = JSONDecoder()
     
     if let decodedTripModel = try? decoder.decode(TripModel.self, from: encodedTripModel) {
       self.tripModel = decodedTripModel
-      self.isAddTripPresented = isAddTripPresented
-      self.isEmailPresented = isEmailPresented
-      self.isStatsPresented = isStatspPresented
     }
   }
   
   func store(in activity: NSUserActivity) {
+    activity.addUserInfoEntries(from: [Key.isAddTripPresented: isAddTripPresented,
+                                       Key.isEmailPresented: isEmailPresented,
+                                       Key.isStatsPresented: isStatsPresented])
+    
+    if (!isAddTripPresented) {
+      return
+    }
+    
     let encoder = JSONEncoder()
     
     if let encodedTripModel = try? encoder.encode(tripModel) {
-      activity.addUserInfoEntries(from: [Key.tripModel: encodedTripModel,
-                                         Key.isAddTripPresented: isAddTripPresented,
-                                         Key.isEmailPresented: isEmailPresented,
-                                         Key.isStatsPresented: isStatsPresented])
+      activity.addUserInfoEntries(from: [Key.tripModel: encodedTripModel])
     }
   }
   

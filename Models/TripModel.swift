@@ -7,21 +7,26 @@
 //
 
 import Foundation
+import Combine
 
-struct TripModel: Identifiable, Decodable, Encodable {
+class TripModel: Identifiable, Decodable, Encodable, ObservableObject {
+  enum CodingKeys: CodingKey {
+    case originTitle, originLat, originLong, destinationTitle, destinationLat, destinationLong, tripStart, tripEnd, appleEstimatedSeconds, googleEstimatedSeconds, hereEstimatedSeconds, bingEstimatedSeconds
+  }
+  
   var id = UUID()
-  var originTitle: String
-  var originLat: Double
-  var originLong: Double
-  var destinationTitle: String
-  var destinationLat: Double
-  var destinationLong: Double
-  var tripStart: Date?
-  var tripEnd: Date?
-  var appleEstimatedSeconds: Double
-  var googleEstimatedSeconds: Double
-  var hereEstimatedSeconds: Double
-  var bingEstimatedSeconds: Double
+  @Published var originTitle: String
+  @Published var originLat: Double
+  @Published var originLong: Double
+  @Published var destinationTitle: String
+  @Published var destinationLat: Double
+  @Published var destinationLong: Double
+  @Published var tripStart: Date?
+  @Published var tripEnd: Date?
+  @Published var appleEstimatedSeconds: Double
+  @Published var googleEstimatedSeconds: Double
+  @Published var hereEstimatedSeconds: Double
+  @Published var bingEstimatedSeconds: Double
   
   var title: String { return originTitle != "" && destinationTitle != "" ? originTitle + " -> " + destinationTitle : "No Title" }
   var tripActualSeconds: Double { return tripEnd != nil && tripStart != nil ? tripEnd!.timeIntervalSince(tripStart!) : 0 }
@@ -66,13 +71,53 @@ struct TripModel: Identifiable, Decodable, Encodable {
     destinationTitle = ""
     destinationLat = 0
     destinationLong = 0
-    tripStart = Date()
-    tripEnd = Date()
     appleEstimatedSeconds = 0
     googleEstimatedSeconds = 0
     hereEstimatedSeconds = 0
     bingEstimatedSeconds = 0
   }
+  
+  required init(from decoder: Decoder) throws {
+     let container = try decoder.container(keyedBy: CodingKeys.self)
+     
+     originTitle = try container.decode(String.self, forKey: .originTitle)
+     originLat = try container.decode(Double.self, forKey: .originLat)
+     originLong = try container.decode(Double.self, forKey: .originLong)
+     destinationTitle = try container.decode(String.self, forKey: .destinationTitle)
+     destinationLat = try container.decode(Double.self, forKey: .destinationLat)
+     destinationLong = try container.decode(Double.self, forKey: .destinationLong)
+     tripStart = try container.decode(Date?.self, forKey: .tripStart)
+     tripEnd = try container.decode(Date?.self, forKey: .tripEnd)
+     appleEstimatedSeconds = try container.decode(Double.self, forKey: .appleEstimatedSeconds)
+     googleEstimatedSeconds = try container.decode(Double.self, forKey: .googleEstimatedSeconds)
+     hereEstimatedSeconds = try container.decode(Double.self, forKey: .hereEstimatedSeconds)
+     bingEstimatedSeconds = try container.decode(Double.self, forKey: .bingEstimatedSeconds)
+   }
+   
+   func encode(to encoder: Encoder) throws {
+     var container = encoder.container(keyedBy: CodingKeys.self)
+     
+     try container.encode(originTitle, forKey: .originTitle)
+     try container.encode(originLat, forKey: .originLat)
+     try container.encode(originLong, forKey: .originLong)
+     try container.encode(destinationTitle, forKey: .destinationTitle)
+     try container.encode(destinationLat, forKey: .destinationLat)
+     try container.encode(destinationLong, forKey: .destinationLong)
+     try container.encode(tripStart, forKey: .tripStart)
+     try container.encode(tripEnd, forKey: .tripEnd)
+     try container.encode(appleEstimatedSeconds, forKey: .appleEstimatedSeconds)
+     try container.encode(googleEstimatedSeconds, forKey: .googleEstimatedSeconds)
+     try container.encode(hereEstimatedSeconds, forKey: .hereEstimatedSeconds)
+     try container.encode(bingEstimatedSeconds, forKey: .bingEstimatedSeconds)
+   }
+  
+  static let dateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "M/dd/yy h:mm:ssa"
+    formatter.amSymbol = "am"
+    formatter.pmSymbol = "pm"
+    return formatter
+  }()
 
   static func displayTimeFromSeconds(label: String, seconds: Double) -> String {
     let (h,m,s) = (Int(seconds) / 3600, (Int(seconds) % 3600) / 60, (Int(seconds) % 3600) % 60)

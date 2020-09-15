@@ -8,22 +8,15 @@
 
 import SwiftUI
 
-struct TripRow: View {
+struct TripRowView: View {
   let trip: Trip
-  static let dateFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "M/dd/yy h:mma"
-    formatter.amSymbol = "am"
-    formatter.pmSymbol = "pm"
-    return formatter
-  }()
   
   var body: some View {
     VStack(alignment: .leading) {
       Text(trip.title)
         .font(.subheadline)
         .padding(.bottom, 10.0)
-      Text(Self.dateFormatter.string(from: trip.tripStart!))
+      Text(TripModel.dateFormatter.string(from: trip.tripStart!))
         .font(.subheadline)
         .padding(.bottom, 10.0)
       HStack {
