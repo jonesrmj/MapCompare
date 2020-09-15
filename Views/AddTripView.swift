@@ -12,6 +12,7 @@ import Combine
 struct AddTripView: View {
   @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
   @EnvironmentObject var appState: AppState
+  @Environment(\.colorScheme) var colorScheme: ColorScheme
   
   @ObservedObject var viewModel: AddTripViewModel
   
@@ -131,7 +132,7 @@ struct AddTripView: View {
                 }
               }
             }
-            .background(Color.white)
+            .background(colorScheme == .dark ? Color.black : Color.white)
             .cornerRadius(5)
             .offset(y: 110)
             .padding(.horizontal, 15)

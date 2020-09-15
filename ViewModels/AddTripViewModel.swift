@@ -90,6 +90,7 @@ class AddTripViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDelega
     bingEstimatedSeconds = tripModel.bingEstimatedSeconds
     tripStart = tripModel.tripStart
     tripEnd  = tripModel.tripEnd
+    actualTravelSeconds = tripModel.tripActualSeconds
   }
   
   private func attemptLocationAccess() {

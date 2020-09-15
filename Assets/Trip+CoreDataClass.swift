@@ -15,10 +15,10 @@ public class Trip: NSManagedObject {
   var title: String { return (originTitle ?? "None") + " -> " + (destinationTitle ?? "None") }
   var tripActualSeconds: Double { return tripEnd != nil && tripStart != nil ? tripEnd!.timeIntervalSince(tripStart!) : 0 }
   var tripActualTime: String { return TripModel.displayTimeFromSeconds(label: "", seconds: tripActualSeconds) }
-  var appleDeltaSeconds: Double { return appleEstimatedSeconds - tripActualSeconds }
-  var googleDeltaSeconds: Double { return googleEstimatedSeconds - tripActualSeconds }
-  var hereDeltaSeconds: Double { return hereEstimatedSeconds - tripActualSeconds }
-  var bingDeltaSeconds: Double { return bingEstimatedSeconds - tripActualSeconds }
+  var appleDeltaSeconds: Double { return abs(appleEstimatedSeconds - tripActualSeconds) }
+  var googleDeltaSeconds: Double { return abs(googleEstimatedSeconds - tripActualSeconds) }
+  var hereDeltaSeconds: Double { return abs(hereEstimatedSeconds - tripActualSeconds) }
+  var bingDeltaSeconds: Double { return abs(bingEstimatedSeconds - tripActualSeconds) }
   var mostAccurateProvider: String {
     var scores: [(provider: String, delta: Double)] = [("Apple", appleDeltaSeconds), ("Google", googleDeltaSeconds), ("Here", hereDeltaSeconds), ("Bing", bingDeltaSeconds)]
     scores.sort(by: {$0.delta < $1.delta})
