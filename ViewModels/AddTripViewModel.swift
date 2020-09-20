@@ -56,7 +56,7 @@ class AddTripViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDelega
     
     locationManager.delegate = self
     completer.delegate = self
-    completer.resultTypes = [.address]
+    completer.resultTypes = [.address, .pointOfInterest]
 
     setTripDetails(from: tripModel)
   }
