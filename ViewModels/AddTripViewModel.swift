@@ -41,11 +41,6 @@ class AddTripViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDelega
   
   @Published var actualTravelSeconds: Double = 0
   
-  //  @Published var appleEstimatedTimeDisplay: String = "Apple Estimate:"
-  //  @Published var googleEstimatedTimeDisplay: String = "Google Estimate:"
-  //  @Published var hereEstimatedTimeDisplay: String = "Here Estimate:"
-  //  @Published var bingEstimatedTimeDisplay: String = "Bing Estimate:"
-  
   @Published var suggestedAddresses: [MKLocalSearchCompletion] = []
   @Published var appleLoading: Bool = false
   @Published var googleLoading: Bool = false
@@ -61,6 +56,7 @@ class AddTripViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDelega
     
     locationManager.delegate = self
     completer.delegate = self
+    completer.resultTypes = [.address]
 
     setTripDetails(from: tripModel)
   }
