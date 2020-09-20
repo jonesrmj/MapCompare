@@ -25,11 +25,22 @@ struct TripListView: View {
   var body: some View {
     NavigationView {
       VStack {
-        List {
-          ForEach(trips, id:\.tripStart) {
-            TripRowView(trip: $0)
+        if #available(iOS 14.0, *) {
+          List {
+            ForEach(trips, id:\.tripStart) {
+              TripRowView(trip: $0)
+            }
+            .onDelete(perform: deleteTrip)
           }
-          .onDelete(perform: deleteTrip)
+          .listStyle(InsetGroupedListStyle())
+        } else {
+          List {
+            ForEach(trips, id:\.tripStart) {
+              TripRowView(trip: $0)
+            }
+            .onDelete(perform: deleteTrip)
+          }
+          .listStyle(GroupedListStyle())
         }
       }
       .navigationBarTitle(Text("Trips"))
