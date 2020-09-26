@@ -53,7 +53,7 @@ struct TripListView: View {
             }) {
               Image(systemName: "envelope")
             }
-            .disabled(!MFMailComposeViewController.canSendMail())
+            .disabled(!MFMailComposeViewController.canSendMail() || trips.isEmpty)
           }
           
           VStack {
@@ -61,6 +61,7 @@ struct TripListView: View {
               Image(systemName: "gauge")
             }
             .padding(.horizontal, 30.0)
+            .disabled(trips.isEmpty)
           }
           
           Button(action: { self.appState.isAddTripPresented = true }) {
