@@ -45,6 +45,7 @@ struct AddTripView: View {
               }) {
                 Text("Calculate")
               }
+              .disabled(viewModel.destinationLat == 0.0)
             }
             
             Divider()
@@ -80,7 +81,9 @@ struct AddTripView: View {
                   self.viewModel.openDirections()
                 }) {
                   Text("Start")
-                } .padding(.horizontal, 25)
+                }
+                .padding(.horizontal, 25)
+                .disabled(viewModel.appleEstimatedSeconds == 0)
                 
                 Text(self.viewModel.tripStart != nil ? TripModel.dateFormatter.string(from: self.viewModel.tripStart!) : "N/A")
               }
@@ -90,7 +93,9 @@ struct AddTripView: View {
                   self.viewModel.stop()
                 }) {
                   Text("Stop")
-                } .padding(.horizontal, 25)
+                }
+                .padding(.horizontal, 25)
+                .disabled(viewModel.tripStart == nil)
                 
                 Text(self.viewModel.tripEnd != nil ? TripModel.dateFormatter.string(from: self.viewModel.tripEnd!) : "N/A")
               }
@@ -110,6 +115,7 @@ struct AddTripView: View {
             }) {
               Text("Save")
             }
+            .disabled(viewModel.tripEnd == nil)
           }
           .padding(.horizontal, 25)
           .padding(.top, 25)

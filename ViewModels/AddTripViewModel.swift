@@ -132,6 +132,9 @@ class AddTripViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDelega
       self.googleEstimatedSeconds = 0
       self.hereEstimatedSeconds = 0
       self.bingEstimatedSeconds = 0
+      self.tripStart = nil
+      self.tripEnd = nil
+      self.actualTravelSeconds = 0
     }
     
     completer.cancel()
