@@ -187,7 +187,6 @@ class AddTripViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDelega
             DispatchQueue.main.async {
               self.googleEstimatedSeconds = Double(json.getDuration())
               self.googleLoading = false
-              //              self.googleEstimatedTimeDisplay = TripModel.displayTimeFromSeconds(label: "Google Estimate" , seconds: self.googleEstimatedSeconds)
             }
           }
         }
@@ -207,7 +206,6 @@ class AddTripViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDelega
             DispatchQueue.main.async {
               self.hereEstimatedSeconds = Double(json.getDuration())
               self.hereLoading = false
-              //              self.hereEstimatedTimeDisplay = TripModel.displayTimeFromSeconds(label: "Here Estimate" , seconds: self.hereEstimatedSeconds)
             }
           }
         }
@@ -227,7 +225,6 @@ class AddTripViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDelega
             DispatchQueue.main.async {
               self.bingEstimatedSeconds = Double(json.getDuration())
               self.bingLoading = false
-              //              self.bingEstimatedTimeDisplay = TripModel.displayTimeFromSeconds(label: "Bing Estimate" , seconds: self.bingEstimatedSeconds)
             }
           }
         }
